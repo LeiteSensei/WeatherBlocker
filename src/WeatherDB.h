@@ -22,5 +22,6 @@ namespace WB
         // Plugin de origem + FormID local de um TESWeather
         bool Describe(const RE::TESWeather* weather, std::string& plugin, std::uint32_t& localID);
         std::string LabelOf(const RE::TESWeather* weather);
+        std::string ShortName(const RE::TESWeather* weather);  // EditorID ou plugin|FormID
     }
 }

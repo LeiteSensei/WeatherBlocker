@@ -42,6 +42,21 @@ namespace WB::WeatherDB
         return BuildLabel(edid ? edid : "", plugin, local);
     }
 
+    std::string ShortName(const RE::TESWeather* weather)
+    {
+        if (!weather) {
+            return "(none)";
+        }
+        const char* edid = weather->GetFormEditorID();
+        if (edid && *edid) {
+            return edid;
+        }
+        std::string plugin;
+        std::uint32_t local = 0;
+        Describe(weather, plugin, local);
+        return std::format("{}|{:06X}", plugin, local);
+    }
+
     void Scan()
     {
         g_all.clear();

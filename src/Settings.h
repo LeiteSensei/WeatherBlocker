@@ -26,6 +26,8 @@ namespace WB
         bool modEnabled = true;
         bool respectOverrides = true;    // nao mexer em clima forcado por quest/script/console
         int  pollMs = 100;
+        bool instantSwitch = true;       // true = troca imediata, false = transicao rapida do motor
+        bool showNotification = true;    // aviso na tela quando um clima e bloqueado
 
         int           fallbackMode = 0;  // 0 = automatico, 1 = clima escolhido
         std::string   fallbackPlugin;

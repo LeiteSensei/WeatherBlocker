@@ -137,7 +137,16 @@ namespace WB::Blocker
             logger::info("Blocked {} at {:02}:{:02} -> switching to {}",
                 WeatherDB::LabelOf(current), nowMin / 60, nowMin % 60, WeatherDB::LabelOf(replacement));
 
-            sky->SetWeather(replacement, false, true);
+            if (s_cfg.instantSwitch) {
+                sky->ForceWeather(replacement, false);   // troca imediata
+            } else {
+                sky->SetWeather(replacement, false, true);  // transicao acelerada do motor
+            }
+
+            if (s_cfg.showNotification) {
+                const auto text = std::format("Weather Blocker: {} blocked", WeatherDB::ShortName(current));
+                RE::DebugNotification(text.c_str());
+            }
         }
     }
 

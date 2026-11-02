@@ -180,6 +180,11 @@ namespace WB::UI
             if (ImGui::IsItemHovered()) {
                 ImGui::SetTooltip("%s", "When ticked, nothing is changed while a script or quest holds the weather.\nUntick it to test with console commands.");
             }
+            s_dirty |= ImGui::Checkbox("Instant switch (no fade from the blocked weather)", &s_edit.instantSwitch);
+            if (ImGui::IsItemHovered()) {
+                ImGui::SetTooltip("%s", "Unticked = uses the engine's accelerated transition instead.");
+            }
+            s_dirty |= ImGui::Checkbox("Show a notification when a weather is blocked", &s_edit.showNotification);
             ImGui::SetNextItemWidth(200.0f);
             s_dirty |= ImGui::SliderInt("Check interval (ms)", &s_edit.pollMs, 50, 1000);
 

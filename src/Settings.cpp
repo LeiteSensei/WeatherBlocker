@@ -56,6 +56,8 @@ namespace WB::Settings
             cfg.modEnabled = j.value("enabled", true);
             cfg.respectOverrides = j.value("respectOverrides", true);
             cfg.pollMs = std::clamp(j.value("pollMs", 100), 50, 1000);
+            cfg.instantSwitch = j.value("instantSwitch", true);
+            cfg.showNotification = j.value("showNotification", true);
 
             if (j.contains("fallback") && j["fallback"].is_object()) {
                 const auto& f = j["fallback"];
@@ -119,6 +121,8 @@ namespace WB::Settings
         j["enabled"] = cfg.modEnabled;
         j["respectOverrides"] = cfg.respectOverrides;
         j["pollMs"] = cfg.pollMs;
+        j["instantSwitch"] = cfg.instantSwitch;
+        j["showNotification"] = cfg.showNotification;
         j["fallback"] = {
             { "mode", cfg.fallbackMode },
             { "plugin", cfg.fallbackPlugin },
