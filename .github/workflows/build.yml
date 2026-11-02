@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Provides cl.exe and the rest of the MSVC environment
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      # The windows-latest image ships with vcpkg; the CMake preset expects VCPKG_ROOT
+      - name: Set VCPKG_ROOT
+        shell: pwsh
+        run: echo "VCPKG_ROOT=$env:VCPKG_INSTALLATION_ROOT" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Configure
+        run: cmake --preset release
+
+      - name: Build
+        run: cmake --build build/release
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path package/SKSE/Plugins | Out-Null
+          Copy-Item build/release/WeatherBlocker.dll package/SKSE/Plugins/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WeatherBlocker
+          path: package
